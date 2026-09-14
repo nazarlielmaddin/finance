@@ -1,0 +1,2 @@
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#dbe7ee;background:#071015;--bg:#071015;--surface:#0d1a21;--elevated:#12242d;--hover:#18333e;--line:#24404b;--ink:#dbe7ee;--ink-faint:#8aa1aa;--accent:#10b981;--info:#3b82f6;--violet:#8b5cf6;--on-accent:#04130e}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:var(--bg)}button,input,select,textarea{font:inherit}
