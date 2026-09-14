@@ -848,7 +848,7 @@ function FinanceAI({ canDev, canApprove }) {
   }, []);
   // Live ticker (spinner + elapsed + tokens) while a response streams.
   useEffect(() => { if (!busy) return; const iv = setInterval(() => setTick((t) => t + 1), 1000); return () => clearInterval(iv); }, [busy]);
-  // Only Süleyman (canApprove) polls + sees the deploy-approval queue.
+  // Only Elməddin (canApprove) polls + sees the deploy-approval queue.
   useEffect(() => {
     if (!canApprove) return;
     let alive = true;
@@ -916,7 +916,7 @@ function FinanceAI({ canDev, canApprove }) {
         </div>
       </div>
 
-      {/* Süleyman-only deploy approval bar — always visible to id 16 so it's findable */}
+      {/* Elməddin-only deploy approval bar — always visible to id 16 so it's findable */}
       {canApprove && (
         pending.length > 0 ? (
           <div className="flex items-center gap-2.5 border-b border-amber-500/40 bg-amber-500/10 px-3.5 py-2.5 text-xs">
@@ -941,7 +941,7 @@ function FinanceAI({ canDev, canApprove }) {
             <FaiOrb size={26} />
             <div className="fin-grad text-2xl font-black mt-3">Fable 5 · Mythos</div>
             <p className="mt-2 max-w-md text-[13px] leading-relaxed text-ink-muted font-sans">
-              Salam! Mən <b>Appina Finance AI</b>-yam — Süleyman tərəfindən qurulub və proqramlaşdırılmışam,
+              Salam! Mən <b>Appina Finance AI</b>-yam — Elməddin tərəfindən qurulub və proqramlaşdırılmışam,
               maliyyə bölməsinin içində canlı işləyirəm. Hesabatları, borcluları, CAPEX, Omid və nağd xərcləri
               oxuyur, təhlil edir, əlavə edir, dəyişir və silirəm. İstədiyiniz dəyişiklik və ya yeni dəyər olsa —
               peşəkar şəkildə həll edirəm. <span className="text-ink-faint">Yalnız maliyyə daxilində.</span>
