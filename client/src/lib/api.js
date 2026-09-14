@@ -68,6 +68,26 @@ function dashboardFrom(s) {
   const sum = (rows, key) => rows.reduce((n, r) => n + Number(r[key] || 0), 0);
   const debt = (r) => Number(r.total_amount || 0) - Number(r.advance_amount || 0) - Number(r.remaining_amount_1 || 0) - Number(r.remaining_amount_2 || 0);
   const capex = s.capex || [], licenses = s.licenses || [], equipment = s.equipment || [];
+  const trend = (rows, dateKey, amountKey) => {
+    const by = {};
+    rows.forEach((r) => {
+      const raw = String(r[dateKey] || '').replace(/\./g, '-');
+      const month = raw.length >= 7 ? raw.slice(0, 7) : '2026-03';
+      by[month] = (by[month] || 0) + Number(r[amountKey] || 0);
+    });
+    return Object.entries(by).sort(([a], [b]) => a.localeCompare(b)).map(([label, value]) => ({ label, value }));
+  };
+  const equipmentOverview = [...new Set(equipment.map((r) => r.status))].map((status) => ({
+    name: status, amount: sum(equipment.filter((r) => r.status === status), 'amount'),
+  }));
+  const capexDebtors = capex.map((r) => ({ customer_name: r.customer_name, debt: Math.max(0, debt(r)) })).sort((a, b) => b.debt - a.debt);
+  const licenseDebtors = licenses.filter((r) => r.status !== 'ödənilib').map((r) => ({ customer_name: r.customer_name, debt: Number(r.amount || 0) })).sort((a, b) => b.debt - a.debt);
+  const paidLicenses = sum(licenses.filter((r) => r.status === 'ödənilib'), 'amount');
+  const unpaidLicenses = sum(licenses.filter((r) => r.status !== 'ödənilib'), 'amount');
+  const statusAmounts = [
+    { name: 'Ödənilib', value: paidLicenses },
+    { name: 'Borc', value: unpaidLicenses },
+  ];
   return {
     ...s.dashboard,
     capex_total: sum(capex, 'total_amount'),
@@ -75,17 +95,33 @@ function dashboardFrom(s) {
     licenses_debt_total: sum(licenses.filter((r) => r.status !== 'ödənilib'), 'amount'),
     equipment_debt_total: sum(equipment.filter((r) => r.status === 'borcludur'), 'amount'),
     projects: capex.length,
-    capex_debtors: capex.map((r) => ({ customer_name: r.customer_name, debt: Math.max(0, debt(r)) })),
-    license_debtors: licenses.filter((r) => r.status !== 'ödənilib').map((r) => ({ customer_name: r.customer_name, debt: Number(r.amount || 0) })),
+    total_capex: sum(capex, 'total_amount'),
+    remaining_amount: capex.reduce((n, r) => n + Math.max(0, debt(r)), 0),
+    license_unpaid_total: unpaidLicenses,
+    license_paid_total: paidLicenses,
+    top_debtors: capexDebtors,
+    license_top_debtors: licenseDebtors,
+    capex_debtors: capexDebtors,
+    license_debtors: licenseDebtors,
     equipment_debts: equipment.filter((r) => r.status === 'borcludur').map((r) => ({ customer_name: r.customer_name, debt: Number(r.amount || 0) })),
-    equipment_overview: [...new Set(equipment.map((r) => r.status))].map((status) => ({ label: status, value: sum(equipment.filter((r) => r.status === status), 'amount') })),
+    equipment_overview: equipmentOverview,
+    lic_status: statusAmounts,
+    yango_trend: trend(s.yango || [], 'date', 'fare'),
+    numbers_trend: trend(s.numbers || [], 'date_range', 'total_amount'),
+    omid_trend: trend(s.omid || [], 'date', 'amount'),
+    nagd_trend: trend(s.nagd || [], 'date', 'amount'),
+    monthly_trend: [{ name: '2026-03', revenue: paidLicenses, payments: unpaidLicenses }],
   };
 }
 async function mock(method, path, body) {
   const s = state();
   if (path === '/finance/sections') return { ...s.sections, all: s.sections.allowed, labels: {} };
   if (path === '/finance/dashboard') return dashboardFrom(s);
-  if (path === '/finance/omid-balance') return { expenses: s.omid, income: [], total: 0, balance: 0 };
+  if (path === '/finance/omid-balance') {
+    const expenses = s.omid.map((row) => ({ ...row, amount: Number(row.amount || row.total_with_vat || 0) }));
+    const total = expenses.reduce((n, row) => n + row.amount, 0);
+    return { expenses, income: [], total, balance: -total };
+  }
   if (path === '/ai/finance/thread' || path === '/finance/dev/pending') return { messages: [], pending: [] };
   const m = path.match(/^\/finance\/omid-alis(?:\/(\d+))?$/);
   if (m) {
