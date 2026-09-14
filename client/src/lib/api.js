@@ -2,29 +2,29 @@ const BASE = import.meta.env.VITE_API_URL || '/api';
 const KEY = 'appina-finance-demo-v1';
 const demoRows = {
   capex: [
-    { id: 1, customer_name: 'Kristal Bakı MMC', project_name: 'Baş ofis təmiri', total_amount: 33000, advance_percentage: 50, advance_amount: 16500, advance_payment_date: '12.02.2026', remaining_amount_1: 6667, remaining_payment_date_1: '15.03.2026', remaining_amount_2: 0, status: 'davam edir', notes: 'İkinci mərhələ tamamlanır' },
-    { id: 2, customer_name: 'Bona Dea Hospital', project_name: 'Tibbi avadanlıq layihəsi', total_amount: 18600, advance_percentage: 40, advance_amount: 7440, advance_payment_date: '28.01.2026', remaining_amount_1: 6130, remaining_payment_date_1: '20.03.2026', remaining_amount_2: 0, status: 'davam edir' },
+    { id: 1, customer_name: 'Company 1', project_name: 'Baş ofis təmiri', total_amount: 33000, advance_percentage: 50, advance_amount: 16500, advance_payment_date: '12.02.2026', remaining_amount_1: 6667, remaining_payment_date_1: '15.03.2026', remaining_amount_2: 0, status: 'davam edir', notes: 'İkinci mərhələ tamamlanır' },
+    { id: 2, customer_name: 'Company 2', project_name: 'Tibbi avadanlıq layihəsi', total_amount: 18600, advance_percentage: 40, advance_amount: 7440, advance_payment_date: '28.01.2026', remaining_amount_1: 6130, remaining_payment_date_1: '20.03.2026', remaining_amount_2: 0, status: 'davam edir' },
   ],
   licenses: [
-    { id: 1, customer_name: 'Bona Dea', month: '2026-03', amount: 11670, status: 'ödənilib', notes: 'İllik lisenziya ödənişi' },
-    { id: 2, customer_name: 'Bilgəh Kardioloji Sanatoriya', month: '2026-03', amount: 2133, status: 'sənədlər göndərilib', notes: 'Mart hesab-fakturası' },
-    { id: 3, customer_name: 'Hyatt Regency Hotel', month: '2026-03', amount: 1320, status: 'ödənilib', notes: 'Aylıq xidmət' },
+    { id: 1, customer_name: 'Company 3', month: '2026-03', amount: 11670, status: 'ödənilib', notes: 'İllik lisenziya ödənişi' },
+    { id: 2, customer_name: 'Company 4', month: '2026-03', amount: 2133, status: 'sənədlər göndərilib', notes: 'Mart hesab-fakturası' },
+    { id: 3, customer_name: 'Company 5', month: '2026-03', amount: 1320, status: 'ödənilib', notes: 'Aylıq xidmət' },
   ],
   equipment: [
-    { id: 1, customer_name: 'Sea Breeze', date: '05.03.2026', amount: 2080, status: 'borcludur', description: 'Kondisioner texniki xidməti' },
-    { id: 2, customer_name: 'Mərkəzi Klinika', date: '11.03.2026', amount: 800, status: 'ödənilib', description: 'Generator baxışı' },
+    { id: 1, customer_name: 'Company 6', date: '05.03.2026', amount: 2080, status: 'borcludur', description: 'Kondisioner texniki xidməti' },
+    { id: 2, customer_name: 'Company 7', date: '11.03.2026', amount: 800, status: 'ödənilib', description: 'Generator baxışı' },
   ],
   contracts: [
-    { id: 1, contract_no: 'CNT-2026-014', customer: 'Bona Dea Hospital', validity: '31.12.2026', classification: 'Xidmət müqaviləsi', link: '' },
-    { id: 2, contract_no: 'CNT-2026-021', customer: 'Kristal Bakı MMC', validity: '30.09.2026', classification: 'CAPEX', link: '' },
+    { id: 1, contract_no: 'CNT-2026-014', customer: 'Company 3', validity: '31.12.2026', classification: 'Xidmət müqaviləsi', link: '' },
+    { id: 2, contract_no: 'CNT-2026-021', customer: 'Company 1', validity: '30.09.2026', classification: 'CAPEX', link: '' },
   ],
   numbers: [
     { id: 1, date_range: '01.03.2026 – 31.03.2026', gsm_number: '+994 50 555 12 34', employee_name: 'Aysel Məmmədova', total_amount: 86.4, tariff_plan: 'Biznes 10 GB' },
     { id: 2, date_range: '01.03.2026 – 31.03.2026', gsm_number: '+994 51 444 23 45', employee_name: 'Murad Əliyev', total_amount: 62.8, tariff_plan: 'Biznes 5 GB' },
   ],
   yango: [
-    { id: 1, date: '14.03.2026', user: 'Nigar Hüseynova', pickup: 'Nərimanov', destination: 'Bona Dea Hospital', fare: 14.5, trip_type: 'Business', purpose: 'Görüş' },
-    { id: 2, date: '16.03.2026', user: 'Murad Əliyev', pickup: '28 May', destination: 'Kristal Abşeron', fare: 11.2, trip_type: 'Business', purpose: 'Obyekt baxışı' },
+    { id: 1, date: '14.03.2026', user: 'Demo User 1', pickup: 'Nərimanov', destination: 'Company 3', fare: 14.5, trip_type: 'Business', purpose: 'Görüş' },
+    { id: 2, date: '16.03.2026', user: 'Demo User 2', pickup: '28 May', destination: 'Company 1', fare: 11.2, trip_type: 'Business', purpose: 'Obyekt baxışı' },
   ],
   omid: [
     { id: 1, date: '03.03.2026', vendor: 'Office Line', description: 'Printer toner və kağız', amount: 248.5, category: 'Ofis', status: 'ödənilib' },
@@ -46,6 +46,16 @@ const seed = {
   sections: { allowed: ['capex', 'licenses', 'equipment', 'contracts', 'numbers', 'yango', 'omid', 'nagd'] },
 };
 const FINANCE_SECTIONS = ['capex', 'licenses', 'equipment', 'contracts', 'numbers', 'yango', 'omid', 'nagd'];
+const DEMO_NAME_REPLACEMENTS = {
+  'Kristal Bakı MMC': 'Company 1',
+  'Bona Dea Hospital': 'Company 2',
+  'Bona Dea': 'Company 3',
+  'Bilgəh Kardioloji Sanatoriya': 'Company 4',
+  'Hyatt Regency Hotel': 'Company 5',
+  'Sea Breeze': 'Company 6',
+  'Mərkəzi Klinika': 'Company 7',
+  'Kristal Abşeron': 'Company 1',
+};
 const state = () => {
   try {
     const stored = JSON.parse(localStorage.getItem(KEY));
@@ -57,6 +67,15 @@ const state = () => {
       dashboard: { ...seed.dashboard, ...(stored.dashboard || {}) },
       sections: { ...seed.sections, ...(stored.sections || {}), allowed: FINANCE_SECTIONS },
     };
+    for (const section of FINANCE_SECTIONS) {
+      merged[section] = (merged[section] || []).map((row) => {
+        const next = { ...row };
+        for (const key of ['customer_name', 'customer', 'destination']) {
+          if (DEMO_NAME_REPLACEMENTS[next[key]]) next[key] = DEMO_NAME_REPLACEMENTS[next[key]];
+        }
+        return next;
+      });
+    }
     localStorage.setItem(KEY, JSON.stringify(merged));
     return merged;
   } catch {
