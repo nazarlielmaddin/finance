@@ -1,6 +1,15 @@
 const BASE = import.meta.env.VITE_API_URL || '/api';
 const KEY = 'appina-finance-demo-v1';
-const seed = { omid: [], dashboard: { total: 0, remaining: 0, projects: 0 }, sections: { allowed: ['dashboard','capex','contracts','licenses','omid-alis','yango','nagd','company-numbers'] } };
+const seed = {
+  omid: [],
+  dashboard: {
+    total: 0, remaining: 0, projects: 0,
+    capex_total: 0, capex_remaining: 0, licenses_debt_total: 0, equipment_debt_total: 0,
+    capex_debtors: [], license_debtors: [], equipment_debts: [],
+    equipment_overview: [], licenses_trend: [], capex_trend: [], numbers_trend: [], omid_trend: [],
+  },
+  sections: { allowed: ['capex', 'licenses', 'equipment', 'contracts', 'numbers', 'yango', 'omid', 'nagd'] },
+};
 const state = () => { try { return JSON.parse(localStorage.getItem(KEY)) || seed; } catch { return seed; } };
 const save = (v) => localStorage.setItem(KEY, JSON.stringify(v));
 async function mock(method, path, body) {
