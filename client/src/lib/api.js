@@ -10,7 +10,23 @@ const seed = {
   },
   sections: { allowed: ['capex', 'licenses', 'equipment', 'contracts', 'numbers', 'yango', 'omid', 'nagd'] },
 };
-const state = () => { try { return JSON.parse(localStorage.getItem(KEY)) || seed; } catch { return seed; } };
+const FINANCE_SECTIONS = ['capex', 'licenses', 'equipment', 'contracts', 'numbers', 'yango', 'omid', 'nagd'];
+const state = () => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(KEY));
+    if (!stored) return seed;
+    const merged = {
+      ...seed,
+      ...stored,
+      dashboard: { ...seed.dashboard, ...(stored.dashboard || {}) },
+      sections: { ...seed.sections, ...(stored.sections || {}), allowed: FINANCE_SECTIONS },
+    };
+    localStorage.setItem(KEY, JSON.stringify(merged));
+    return merged;
+  } catch {
+    return seed;
+  }
+};
 const save = (v) => localStorage.setItem(KEY, JSON.stringify(v));
 async function mock(method, path, body) {
   const s = state();
